@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENSE Modules</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .sensor-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            position: relative;
+            margin: 10px;
+        }
+        .sensor-box h1 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .sensor {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .sensor h2 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        .actions {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .globe {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+        .globe img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="sensor-box">
+        <h1>SENSE 1</h1>
+        <div class="sensor">
+            <h2>pH</h2>
+            <p id="ph">Loading...</p>
+        </div>
+        <div class="sensor">
+            <h2>TDS</h2>
+            <p id="tds">Loading...</p>
+        </div>
+        <div class="sensor">
+            <h2>Turbidity</h2>
+            <p id="turbidity">Loading...</p>
+        </div>
+        <div class="sensor">
+            <h2>Flowrate</h2>
+            <p id="flowrate">Loading...</p>
+        </div>
+        <div class="actions">
+            <button class="button" onclick="handleButtonClick(1)">Action</button>
+        </div>
+        <div class="globe">
+            <a href="https://www.google.com/maps/@12.8692626,80.219332,60m/data=!3m1!1e3?entry=ttu&g_ep=EgoyMDI1MDEyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Globe_icon.svg" alt="Globe">
+            </a>
+        </div>
+    </div>
+
+    <div class="sensor-box">
+        <h1>SENSE 2</h1>
+        <div class="sensor">
+            <h2>pH</h2>
+            <p>NA</p>
+        </div>
+        <div class="sensor">
+            <h2>TDS</h2>
+            <p>NA</p>
+        </div>
+        <div class="sensor">
+            <h2>Turbidity</h2>
+            <p>NA</p>
+        </div>
+        <div class="sensor">
+            <h2>Flowrate</h2>
+            <p>NA</p>
+        </div>
+        <div class="actions">
+            <button class="button" onclick="handleButtonClick(2)">Action</button>
+        </div>
+        <div class="globe">
+            <a href="https://www.google.com/maps/@12.8618444,80.2492401,106m/data=!3m1!1e3?entry=ttu&g_ep=EgoyMDI1MDEyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Globe_icon.svg" alt="Globe">
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch sensor data from the server
+        async function fetchSensorData() {
+            try {
+                const response = await fetch('/api/sensor-data');
+                const data = await response.json();
+
+                // Update the webpage with the latest sensor data for SENSE 1
+                document.getElementById('ph').textContent = data.ph;
+                document.getElementById('tds').textContent = `${data.tds} ppm`;
+                document.getElementById('turbidity').textContent = `${data.turbidity} NTU`;
+                document.getElementById('flowrate').textContent = `${data.flowrate} L/min`;
+            } catch (error) {
+                console.error("Error fetching sensor data:", error);
+            }
+        }
+
+        // Function to handle button click
+        function handleButtonClick(sensorId) {
+            alert(`Action clicked for SENSE ${sensorId}! Define the action in the script.`);
+        }
+
+        // Refresh sensor data every 2 seconds
+        setInterval(fetchSensorData, 2000);
+
+        // Initial fetch
+        fetchSensorData();
+    </script>
+</body>
+</html>
